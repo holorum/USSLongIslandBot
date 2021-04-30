@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # To be able to run this script you must first install discord.py
 # https://github.com/Rapptz/discord.py
 import discord
