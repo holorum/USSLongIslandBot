@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 
-# Here you must provide a bot token
+# You must provide a bot token
 # For Github we use a file named 'token' with only our token in it
 # You may want to encrypt that file to ensure full safety
 # For testing it's fastest to just replace this with your bot's token
@@ -25,7 +25,7 @@ def start(token):
         help_command = helpcom
         )
 
-    # Here we define what should happen when the bot is all set up and ready.
+    # Define what should happen when the bot is all set up and ready.
 
     @bot.event
     async def on_ready():
@@ -33,16 +33,16 @@ def start(token):
         print(bot.user.name)
         print('------')
 
-    # Here we create a class that will be defined as a category in the help command.
+    # Create a class that will be defined as a category in the help command.
 
     class Standard(commands.Cog):
         """Standard simple commands"""
 
-        # Here we use the discord.py to convert our modules into bot commands.
+        # Use the discord.py to convert our modules into bot commands.
         @bot.command(description="basic ping command where the bot responds with a pong message")
         async def ping(ctx):
             """Ping-pong!"""
-            await ctx.send('pong!')
+            await ctx.send('Pong!')
 
     # Removed because if I use this the commands doesn't seem to work at all.
     # This defines what should happen when the bot gets a message.
@@ -52,7 +52,7 @@ def start(token):
     #         return
 
     #     if str(msg.channel.type) == "private":
-    #         await msg.channel.send("please use the command prefix to run commands! ('~')")
+    #         await msg.channel.send("Please use the command prefix(~) to run commands! ")
     #         return
 
 

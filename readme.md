@@ -20,7 +20,7 @@ Install [discord.py](https://github.com/Rapptz/discord.py) using one of the foll
         # Windows
         py -3 -m pip install -U discord.py
 
-For any additional information/documentation about this python discord wrapper, visit the [discord.py](https://github.com/Rapptz/discord.py) github page
+For any additional information/documentation about this python discord wrapper, visit the [discord.py](https://github.com/Rapptz/discord.py) github page.
 
 ### About Discord Tokens
 
@@ -28,7 +28,7 @@ The discord token is a unique indentifier (something like a password) for a bot,
 
 You can always generate another one from the discord developer page if you feel that your token has been exposed.
 
-To avoid such a case that I mentioned above I recommend encrypting your token when you use it. It's definitly not safe to replace the "token" variables value with your token as a string. The only case when you should do is, is when you are testing in a safe environment.
+To avoid such a case that is mentioned above it is recommended to encrypt your token when you use it. It's definitly not safe to replace the "token" variables value with your token as a string. The only case when you should do is, is when you are testing in a safe environment.
 
 ### Using your Token
 
@@ -37,7 +37,7 @@ Here we "secure" our tokens in a simple text file FOR TESTING only and the actua
 To use your token simple create a "token" file in the folder where the main.py file is and you are good to go.
 
 ### End
-Currently this is all you need to run your own USS Long Island like bot.
+Currently this is all you need to run your own USS Long Island Bot like bot.
 
 ## Links
 
