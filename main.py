@@ -1,2 +1,6 @@
-print("test")
-print("test2")
+import bot
+
+
+token = open("token", "r").read()
+
+bot.start(token)
