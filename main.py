@@ -12,7 +12,7 @@ from discord.ext import commands
 # For testing it's fastest to just replace this with your bot's token
 token = open("token", "r").read()
 
-desc = "USS Long Island bot WIP version"
+desc = "USS Long Island Bot WIP version"
 helpcom = commands.DefaultHelpCommand(
     no_category = "Standard"
 )
