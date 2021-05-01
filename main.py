@@ -52,7 +52,7 @@ def start(token):
     # async def on_message(msg):
     #     if msg.author == bot.user:
     #         return
-
+    #
     #     if str(msg.channel.type) == "private":
     #         await msg.channel.send("Please use the command prefix(~) to run commands! ")
     #         return
