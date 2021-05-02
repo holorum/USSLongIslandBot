@@ -2,7 +2,6 @@
 import requests as req
 import random
 
-
 steam = "http://api.steampowered.com"
 steam_store = "http://store.steampowered.com"
 
@@ -15,7 +14,9 @@ def get_all_games():
     return r
 
 
+# Creates a steam store url based on appid and name of the game
 def create_store_url(appid, name):
+    """Creates a steam store url"""
     newname = name.replace(" ","_")
     return "{}/app/{}/{}".format(steam_store, appid, newname)
 
@@ -35,7 +36,6 @@ def get_game(appid):
         return None
 
 
-# While the "get_game()" returns "None" tries another one,
 # Returns a random game 
 def get_random_game():
     """Return a random game"""
@@ -50,10 +50,10 @@ def get_random_game():
 
 # Recommends a random steam game
 def recommend_game():
+    """Recommends a game returns the name and the store url"""
     game = get_random_game()
     recommend = str(
         "Name: {}\n"
-        "{}\n"
-        "steam store: {}"
+        "{}"
     ).format(game["name"], create_store_url(game["steam_appid"], game["name"]))
     return recommend
