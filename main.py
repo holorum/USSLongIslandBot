@@ -61,5 +61,4 @@ def start(token):
     # Starts the bot using the provided token.
     bot.run(token)
 
-
 start(token)
