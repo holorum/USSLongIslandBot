@@ -5,7 +5,7 @@ import random
 
 steam = "http://api.steampowered.com"
 steam_store = "http://store.steampowered.com"
-
+gamesdict = {}
 
 # Updates the gamesdict
 def update_dict():
