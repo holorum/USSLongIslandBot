@@ -1,10 +1,19 @@
 # For this script to be functioning, it requires the "requests" module
 import requests as req
+import json
 import random
 
 steam = "http://api.steampowered.com"
 steam_store = "http://store.steampowered.com"
 
+
+# Updates the gamesdict
+def update_dict():
+    jcron = open("games.json", "r")
+    gamesdict = json.load(jcron)
+    return gamesdict
+
+gamesdict = update_dict()
 
 # Creates a steam store url based on appid and name of the game
 def create_store_url(appid, name):

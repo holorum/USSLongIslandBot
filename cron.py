@@ -1,9 +1,10 @@
 import requests as req
+import steam_requests
 import json
 
 steam = "http://api.steampowered.com"
-# Returns all the "games" (apps) from steam including the dlcs and other types into a file
-def get_all_games():
+
+def update_json():
     """Returns all games from steam to a file"""
     all_games = "/ISteamApps/GetAppList/v2"
     r = req.get(steam+all_games).json()
@@ -11,4 +12,5 @@ def get_all_games():
     with open("games.json", "w") as jcron:
         jcron.write(serialize)
 
-get_all_games()
+update_json()
+steam_requests.gamesdict = steam_requests.update_dict()
