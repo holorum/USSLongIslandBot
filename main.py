@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
-# To be able to run this script you must first install discord.py
-# https://github.com/Rapptz/discord.py
+# To be able to run this script you must first install discord.py, and requests
+# https://github.com/Rapptz/discord.py | https://github.com/psf/requests
 import discord
+import steam_requests
 from discord.ext import commands
 
 
