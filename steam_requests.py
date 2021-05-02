@@ -2,6 +2,7 @@
 import requests as req
 import random
 
+
 steam = "http://api.steampowered.com"
 steam_store = "http://store.steampowered.com"
 
@@ -14,6 +15,11 @@ def get_all_games():
     return r
 
 
+def create_store_url(appid, name):
+    newname = name.replace(" ","_")
+    return "{}/app/{}/{}".format(steam_store, appid, newname)
+
+
 # Some apps might be not games so it needs to be checked, also because the request returns a {'succes' : false} tuple
 def get_game(appid):
     """Returns the game with the given 'appid'"""
@@ -24,7 +30,7 @@ def get_game(appid):
         data = r[fk]["data"]
         if data["type"] != "game":
             raise KeyError
-        return data["type"]
+        return data
     except KeyError:
         return None
 
@@ -40,3 +46,14 @@ def get_random_game():
         randn = random.randint(0, len(r["applist"]["apps"]))
         game = get_game(r["applist"]["apps"][randn]["appid"])
     return game
+
+
+# Recommends a random steam game
+def recommend_game():
+    game = get_random_game()
+    recommend = str(
+        "Name: {}\n"
+        "{}\n"
+        "steam store: {}"
+    ).format(game["name"], create_store_url(game["steam_appid"], game["name"]))
+    return recommend
