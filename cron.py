@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 
 import requests as req
-import steam_requests
 import json
 
 steam = "http://api.steampowered.com"
-
 
 # Updates the json file
 def update_json():
@@ -17,5 +15,6 @@ def update_json():
         jcron.write(serialize)
 
 update_json()
+import steam_requests
 # Makes the dict in steam_requests.py update 
 steam_requests.gamesdict = steam_requests.update_dict()
