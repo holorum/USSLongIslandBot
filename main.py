@@ -38,15 +38,23 @@ def start(token):
         print('------')
 
     # Create a class that will be defined as a category in the help command.
-
     class Standard(commands.Cog):
         """Standard simple commands"""
 
         # Use the discord.py to convert our modules into bot commands.
-        @bot.command(description="basic ping command where the bot responds with a pong message")
+        @bot.command(description="Basic ping command where the bot responds with a pong message")
         async def ping(ctx):
             """Ping-pong!"""
             await ctx.send('Pong!')
+        
+        # Steam recommandation command
+        # It can be slow because of steam
+        @bot.command(description="Recommends a game from steam")
+        async def recgame(ctx):
+            """Recommend me a game!"""
+            rec = steam_requests.recommend_game()
+            await ctx.send(rec)
+        
 
     # Removed because if I use this the commands doesn't seem to work at all.
     # This defines what should happen when the bot gets a message.
@@ -62,6 +70,5 @@ def start(token):
 
     # Starts the bot using the provided token.
     bot.run(token)
-
 
 start(token)

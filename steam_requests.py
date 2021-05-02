@@ -53,7 +53,7 @@ def recommend_game():
     """Recommends a game returns the name and the store url"""
     game = get_random_game()
     recommend = str(
-        "Name: {}\n"
+        "{}\n"
         "{}"
     ).format(game["name"], create_store_url(game["steam_appid"], game["name"]))
     return recommend
