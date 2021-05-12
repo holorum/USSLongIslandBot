@@ -38,7 +38,7 @@ To use your token simple create a "token" file in the folder where the main.py f
 
 ### cron.py
 
-`cron.py` is to be run every so often so it creates and update `games.json` from which the bot recommends the games. You should make a cronjob out of it or just run it manually every once in a while.
+`cron.py` is to be run every so often so it creates and updates `games.json` from which the bot recommends the games. You should make a cronjob out of it or just run it manually every once in a while.
 
 ### End
 Currently this is all you need to run your own USS Long Island Bot like bot.
