@@ -20,16 +20,14 @@ helpcom = commands.DefaultHelpCommand(
     no_category = "Standard"
 )
 
+# Defines the bot command prefix, and the variable used to add additional commands.
+bot = commands.Bot(
+    command_prefix = commands.when_mentioned_or("~"),
+    description = desc,
+    help_command = helpcom
+    )
 
 def start(token):
-
-    # Defines the bot command prefix, and the variable used to add additional commands.
-    bot = commands.Bot(
-        command_prefix = commands.when_mentioned_or("~"),
-        description = desc,
-        help_command = helpcom
-        )
-
     # Define what should happen when the bot is all set up and ready.
     @bot.event
     async def on_ready():
@@ -62,16 +60,15 @@ def start(token):
             await ctx.send(ghostie)
         
 
-    # Removed because if I use this the commands doesn't seem to work at all.
-    # This defines what should happen when the bot gets a message.
-    # @bot.event
-    # async def on_message(msg):
-    #     if msg.author == bot.user:
-    #         return
-    #
-    #     if str(msg.channel.type) == "private":
-    #         await msg.channel.send("Please use the command prefix(~) to run commands! ")
-    #         return
+    # Well looks like If the event is overriden then the commands won't procees...,
+    # but if we use the listener then it's fine
+    @bot.listen()
+    async def on_message(msg):
+        if msg.author == bot.user:
+            return
+        if str(msg.channel.type) == "private" and not "~" in msg.content:
+            await msg.channel.send("Please use the command prefix(~) to run commands! ")
+            return
 
 
     # Starts the bot using the provided token.

@@ -19,7 +19,7 @@ def get_random_art():
     type = post["link_flair_text"]
     url = post["url"]
 
-    while type != "Art":
+    while type != "Art" or reddit_domain+"/gallery" in url:
         r = req.get(reddit_domain+sub_reddit+"random.json?", headers=reddit_agent).json()
         post = r[0]["data"]["children"][0]["data"]
         type = post["link_flair_text"]
