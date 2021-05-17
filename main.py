@@ -4,6 +4,7 @@
 # https://github.com/Rapptz/discord.py | https://github.com/psf/requests
 import discord
 import steam_requests
+import reddit_requests
 from discord.ext import commands
 
 
@@ -53,6 +54,12 @@ def start(token):
             """Recommend me a game!"""
             rec = steam_requests.recommend_game()
             await ctx.send(rec)
+        
+        @bot.command(description="Random Art from steam")
+        async def art(ctx):
+            """Show me Ghostie!"""
+            ghostie = reddit_requests.get_random_art()
+            await ctx.send(ghostie)
         
 
     # Removed because if I use this the commands doesn't seem to work at all.
