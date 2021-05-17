@@ -30,7 +30,6 @@ def start(token):
         )
 
     # Define what should happen when the bot is all set up and ready.
-
     @bot.event
     async def on_ready():
         print('Logged in as')
