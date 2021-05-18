@@ -97,6 +97,7 @@ def start(token):
     surprise.start()
 
 
+    # Here we add the commands that are inside of our classes, Cogs are basically lists of commands, but they aren't exactly, they're more than that...
     bot.add_cog(Standard(bot))
     bot.add_cog(Art(bot))
         
