@@ -135,7 +135,7 @@ def start(token):
     @tasks.loop(hours=c_hours)
     async def crontask():
         os.system("cron.py")
-    @tasks.loop(seconds=5.0)
+    @tasks.loop(hours=haunt_h)
     async def surprise():
         try:
             ro = r(0, len(opted))
