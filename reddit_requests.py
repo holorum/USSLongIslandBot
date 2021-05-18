@@ -32,9 +32,7 @@ def get_random_art():
 
 def get_random_nsfw():
 
-    # Here we use reddits random api call to get a random post then we do this untils it's an Art post.
-    # Unfornunately the reddit api doesn't have an api call where you can specify the flair.
-    # If anyone has a better Idea DO A FRICKING PULL REQUEST THAT FIXES THIS SHIT BECAUSE IT CAN BE SLOW AS FUCK.
+    # Uses the same method but requests and nsfw post
     r = req.get(reddit_domain+sub_reddit+"random.json", headers=reddit_agent).json()
     post = r[0]["data"]["children"][0]["data"]
     nsfw = post["over_18"]

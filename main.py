@@ -16,15 +16,11 @@ token = open("token", "r").read()
 
 # The bots description and help command is defined/customised here
 desc = "USS Long Island Bot WIP version"
-helpcom = commands.DefaultHelpCommand(
-    no_category = "Standard"
-)
 
-# Defines the bot command prefix, and the variable used to add additional commands.
+# Defines the bot command prefix, the description, and the variable used to add additional commands.
 bot = commands.Bot(
     command_prefix = commands.when_mentioned_or("~"),
-    description = desc,
-    help_command = helpcom
+    description = desc
     )
 
 def start(token):
@@ -36,28 +32,45 @@ def start(token):
         print('------')
 
     # Create a class that will be defined as a category in the help command.
+    # In the discord.py docs this is refered as a "Cog".
     class Standard(commands.Cog):
+        def __init__(self, bot):
+            self.bot = bot
         """Standard simple commands"""
 
         # Use the discord.py to convert our modules into bot commands.
-        @bot.command(description="Basic ping command where the bot responds with a pong message")
-        async def ping(ctx):
+        @commands.command(description="Basic ping command where the bot responds with a pong message")
+        async def ping(self, ctx):
             """Ping-pong!"""
             await ctx.send('Pong!')
         
         # Steam recommandation command
         # It can be slow because of steam
-        @bot.command(description="Recommends a game from steam")
-        async def recgame(ctx):
+        @commands.command(description="Recommends a game from steam")
+        async def recgame(self, ctx):
             """Recommend me a game!"""
             rec = steam_requests.recommend_game()
             await ctx.send(rec)
         
-        @bot.command(description="Random Art from reddit")
-        async def art(ctx):
+    class Art(commands.Cog):
+        def __init__(self, bot):
+            self.bot = bot
+        """Art commands"""
+        
+        @commands.command(description="Random Art from reddit")
+        async def art(self, ctx):
             """Show me Ghostie!"""
             ghostie = reddit_requests.get_random_art()
             await ctx.send(ghostie)
+
+        @commands.command(description="Random NSFW Art from reddit")
+        async def nsfw(self, ctx):
+             """Show me Naughty Ghostie!"""
+             n_ghostie = reddit_requests.get_random_nsfw()
+             await ctx.send(n_ghostie)
+
+    bot.add_cog(Standard(bot))
+    bot.add_cog(Art(bot))
         
 
     # Well looks like If the event is overriden then the commands won't procees...,
