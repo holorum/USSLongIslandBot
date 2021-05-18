@@ -36,6 +36,11 @@ Here we "secure" our tokens in a simple text file FOR TESTING only and the actua
 
 To use your token simple create a "token" file in the folder where the main.py file is and you are good to go.
 
+### About Discord Intents
+
+The server members Intent needs to be enabled on the bot to fully function.
+see [Privileged Gateway Intents](https://discordpy.readthedocs.io/en/latest/intents.html)
+
 ### cron.py
 
 `cron.py` is to be run every so often so it creates and updates `games.json` from which the bot recommends the games. You should make a cronjob out of it or just run it manually every once in a while.
