@@ -25,7 +25,7 @@ intents.members = True
 # Whether you run the cron.py in a cronjob or would like to use auto-update at 5 hour intervals.
 # This is True by default because the official bot uses cronjob.
 # The interval can be changed via c_hours.
-# NOTE: The cron.py is still required if the internal cron is used because that's a CTRL+C, CTRL+V and that's too much work
+# NOTE: The cron.py is still required if the internal cron is used because that's a CTRL+C, CTRL+V and that's too much work.
 cron = True
 c_hours = 5.0
 
@@ -78,15 +78,23 @@ def start(token):
 
         @commands.command(description="Random NSFW Art from reddit")
         async def nsfw(self, ctx):
-             """Show me Naughty Ghostie!"""
-             n_ghostie = reddit_requests.get_random_nsfw()
-             await ctx.send(n_ghostie)
+            """Show me Naughty Ghostie!"""
+            n_ghostie = reddit_requests.get_random_nsfw()
+            await ctx.send(n_ghostie)
+    
+    # Initialize Tasks
+    # Tasks are internal loops that allows you to do something every given interval. (For more info see the discord.py docs)
     @tasks.loop(hours=c_hours)
     async def crontask():
         os.system("cron.py")
+    @tasks.loop(seconds=1.0)
+    async def surprise():
+        pass
     
+    # Start the task if relevant.
     if cron == False:
         crontask.start()
+    surprise.start()
 
 
     bot.add_cog(Standard(bot))
