@@ -17,12 +17,33 @@ def get_random_art():
     r = req.get(reddit_domain+sub_reddit+"random.json", headers=reddit_agent).json()
     post = r[0]["data"]["children"][0]["data"]
     type = post["link_flair_text"]
+    nsfw = post["over_18"]
     url = post["url"]
 
-    while type != "Art" or reddit_domain+"/gallery" in url:
+    while type != "Art" or reddit_domain+"/gallery" in url or bool(nsfw) != False:
         r = req.get(reddit_domain+sub_reddit+"random.json?", headers=reddit_agent).json()
         post = r[0]["data"]["children"][0]["data"]
         type = post["link_flair_text"]
+        nsfw = post["over_18"]
         url = post["url"]
-    if type == "Art":
+    if type == "Art" and nsfw == False:
+        return url
+
+
+def get_random_nsfw():
+
+    # Here we use reddits random api call to get a random post then we do this untils it's an Art post.
+    # Unfornunately the reddit api doesn't have an api call where you can specify the flair.
+    # If anyone has a better Idea DO A FRICKING PULL REQUEST THAT FIXES THIS SHIT BECAUSE IT CAN BE SLOW AS FUCK.
+    r = req.get(reddit_domain+sub_reddit+"random.json", headers=reddit_agent).json()
+    post = r[0]["data"]["children"][0]["data"]
+    nsfw = post["over_18"]
+    url = post["url"]
+
+    while reddit_domain+"/gallery" in url or bool(nsfw) == False:
+        r = req.get(reddit_domain+sub_reddit+"random.json?", headers=reddit_agent).json()
+        post = r[0]["data"]["children"][0]["data"]
+        nsfw = post["over_18"]
+        url = post["url"]
+    if nsfw == True:
         return url
