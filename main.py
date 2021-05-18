@@ -2,10 +2,13 @@
 
 # To be able to run this script you must first install discord.py, and requests
 # https://github.com/Rapptz/discord.py | https://github.com/psf/requests
+import os
+from time import sleep
+from tkinter.messagebox import YES
 import discord
 import steam_requests
 import reddit_requests
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 
 # You must provide a bot token
@@ -16,10 +19,20 @@ token = open("token", "r").read()
 
 # The bots description and help command is defined/customised here
 desc = "USS Long Island Bot WIP version"
+intents = discord.Intents.default()
+intents.members = True
+
+# Whether you run the cron.py in a cronjob or would like to use auto-update at 5 hour intervals.
+# This is True by default because the official bot uses cronjob.
+# The interval can be changed via c_hours.
+# NOTE: The cron.py is still required if the internal cron is used because that's a CTRL+C, CTRL+V and that's too much work
+cron = True
+c_hours = 5.0
 
 # Defines the bot command prefix, the description, and the variable used to add additional commands.
 bot = commands.Bot(
     command_prefix = commands.when_mentioned_or("~"),
+    intents=intents,
     description = desc
     )
 
@@ -68,6 +81,13 @@ def start(token):
              """Show me Naughty Ghostie!"""
              n_ghostie = reddit_requests.get_random_nsfw()
              await ctx.send(n_ghostie)
+    @tasks.loop(hours=c_hours)
+    async def crontask():
+        os.system("cron.py")
+    
+    if cron == False:
+        crontask.start()
+
 
     bot.add_cog(Standard(bot))
     bot.add_cog(Art(bot))
