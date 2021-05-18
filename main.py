@@ -3,21 +3,20 @@
 # To be able to run this script you must first install discord.py, and requests
 # https://github.com/Rapptz/discord.py | https://github.com/psf/requests
 import os
-from time import sleep
-from tkinter.messagebox import YES
 import discord
 import steam_requests
 import reddit_requests
+from random import randint as r
 from discord.ext import commands, tasks
 
 
-# You must provide a bot token
-# For Github we use a file named 'token' with only our token in it
-# You may want to encrypt that file to ensure full safety
-# For testing it's fastest to just replace this with your bot's token
+# You must provide a bot token.
+# For Github we use a file named 'token' with only our token in it.
+# You may want to encrypt that file to ensure full safety.
+# For testing it's fastest to just replace this with your bot's token.
 token = open("token", "r").read()
 
-# The bots description and help command is defined/customised here
+# The bots description is defined/customised here, also the intent gateways that are used.
 desc = "USS Long Island Bot WIP version"
 intents = discord.Intents.default()
 intents.members = True
@@ -35,6 +34,9 @@ bot = commands.Bot(
     intents=intents,
     description = desc
     )
+
+opted = []
+haunt_h = 1.0
 
 def start(token):
     # Define what should happen when the bot is all set up and ready.
@@ -57,6 +59,33 @@ def start(token):
             """Ping-pong!"""
             await ctx.send('Pong!')
         
+
+        @commands.command(description="opt in for haunt")
+        async def haunt(self, ctx):
+            """Haunting you!"""
+            h = False
+            for op in opted:
+                if op == ctx.author:
+                    h = True
+                else:
+                    h = False
+            if not h:
+                opted.append(ctx.author)
+                await ctx.send("Haunt!")
+            else:
+                await ctx.send("Already Haunting you!")
+
+
+        @commands.command(description="opt out for haunt")
+        async def dehaunt(self, ctx):
+            """De Haunting you..."""
+            try:
+                opted.remove(ctx.author)
+                await ctx.send("...")
+            except Exception:
+                await ctx.send("I'm not even haunting you!")
+
+        
         # Steam recommandation command.
         # It can be slow because of steam.
         @commands.command(description="Recommends a game from steam")
@@ -70,26 +99,32 @@ def start(token):
             self.bot = bot
         """Art commands"""
         
+        # Art command see reddit_requests
         @commands.command(description="Random Art from reddit")
         async def art(self, ctx):
             """Show me Ghostie!"""
             ghostie = reddit_requests.get_random_art()
             await ctx.send(ghostie)
 
+        # NSFW command see reddit_requests
         @commands.command(description="Random NSFW Art from reddit")
         async def nsfw(self, ctx):
             """Show me Naughty Ghostie!"""
             n_ghostie = reddit_requests.get_random_nsfw()
             await ctx.send(n_ghostie)
     
-    # Initialize Tasks
+    # Initialize Tasks.
     # Tasks are internal loops that allows you to do something every given interval. (For more info see the discord.py docs)
     @tasks.loop(hours=c_hours)
     async def crontask():
         os.system("cron.py")
-    @tasks.loop(seconds=1.0)
+    @tasks.loop(hours=haunt_h)
     async def surprise():
-        pass
+        try:
+            ro = r(0, len(opted))
+            await opted[ro].dm_channel.send(reddit_requests.get_random_art())
+        except Exception:
+            pass
     
     # Start the task if relevant.
     if cron == False:
@@ -116,7 +151,7 @@ def start(token):
 
 
     # Starts the bot using the provided token.
-    # NOTE: This file only runs once, if more control is required over the loop use "bot.start(token)" instead, but first visit the discord.py docs
+    # NOTE: This file only runs once, if more control is required over the loop use "bot.start(token)" instead, but first visit the discord.py docs.
     bot.run(token)
 
 start(token)
