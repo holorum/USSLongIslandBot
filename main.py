@@ -57,8 +57,8 @@ def start(token):
             """Ping-pong!"""
             await ctx.send('Pong!')
         
-        # Steam recommandation command
-        # It can be slow because of steam
+        # Steam recommandation command.
+        # It can be slow because of steam.
         @commands.command(description="Recommends a game from steam")
         async def recgame(self, ctx):
             """Recommend me a game!"""
@@ -101,8 +101,10 @@ def start(token):
     bot.add_cog(Art(bot))
         
 
-    # Well looks like If the event is overriden then the commands won't procees...,
-    # but if we use the listener then it's fine
+    # Well looks like If the events on_message is overriden then the commands won't procees...,
+    # but if we use the listener then it's fine.
+    # (Figured that if the "on_message()" is overriden, then we need to call the "command_process()", or smthg like that but using a listener instead was faster.)
+    # NOTE: when using vscode pylance says that it isn't accessed, bullshit. It Is AcCeSsEd. (Tested)
     @bot.listen()
     async def on_message(msg):
         if msg.author == bot.user:
@@ -113,6 +115,7 @@ def start(token):
 
 
     # Starts the bot using the provided token.
+    # NOTE: This file only runs once, if more control is required over the loop use "bot.start(token)" instead, but first visit the discord.py docs
     bot.run(token)
 
 start(token)
