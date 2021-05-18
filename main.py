@@ -35,14 +35,18 @@ bot = commands.Bot(
     description = desc
     )
 
+# Store the id's of the users in a List, the id's in the List are used every "haunt_h" interval
 opted = []
 
+# Reads the opted file and stores the id's in the opted List
 o = open("opted")
 for line in o:
     line = line.strip("\n")
     if line != "":
         opted.append(line)
 
+# "haunt_h" is an interval used in a internal loop that runs like a subprocess.
+# It defines how much time is needed before the bot will send a random art from reddit to an opted user.
 haunt_h = 1.0
 
 def start(token):
@@ -60,6 +64,7 @@ def start(token):
             self.bot = bot
         """Standard simple commands"""
 
+
         # Use the discord.py to convert our modules into bot commands.
         @commands.command(description="Basic ping command where the bot responds with a pong message")
         async def ping(self, ctx):
@@ -67,6 +72,9 @@ def start(token):
             await ctx.send('Pong!')
         
 
+        # This command registers the messages author, for haunting.
+        # Here adding another ID t the List is easy, and writing to the file is easy too,
+        # but the ID needs to be converted to String, for the List it's not necessary.
         @commands.command(description="opt in for haunt")
         async def haunt(self, ctx):
             """Haunting you!"""
@@ -85,6 +93,9 @@ def start(token):
                 await ctx.send("Already Haunting you!")
 
 
+        # Removes the messages author from the haunting process.
+        # For the List it's easy because we can just use the List's remove() method,
+        # but for the file we need to... well rewrite the file.
         @commands.command(description="opt out for haunt")
         async def dehaunt(self, ctx):
             """De Haunting you..."""
@@ -105,12 +116,14 @@ def start(token):
         
         # Steam recommandation command.
         # It can be slow because of steam.
+        # see "steam_requests.py" to understand how it works.
         @commands.command(description="Recommends a game from steam")
         async def recgame(self, ctx):
             """Recommend me a game!"""
             rec = steam_requests.recommend_game()
             await ctx.send(rec)
-        
+    
+    # See "reddit_requests.py" to understand how it works.
     class Art(commands.Cog):
         def __init__(self, bot):
             self.bot = bot
@@ -135,6 +148,8 @@ def start(token):
     @tasks.loop(hours=c_hours)
     async def crontask():
         os.system("cron.py")
+
+    # This task here is the haunting process, every hour it sends a random art from reddit to a random opted user, based on the users ID.
     @tasks.loop(hours=haunt_h)
     async def surprise():
         try:

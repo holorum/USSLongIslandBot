@@ -1,7 +1,8 @@
 # Well this file is created if there will be any more reddit api requests.
+# Install requests via pip to try it out.
 import requests as req
 
-# Just some text for reusing if needed
+# Just some text for reusing if needed.
 reddit_domain = "https://www.reddit.com"
 sub_reddit = "/r/USSLongIsland/"
 
@@ -9,6 +10,10 @@ sub_reddit = "/r/USSLongIsland/"
 reddit_agent = {"User-Agent" : "USSLongIsland"}
 
 
+# These two modules use requests, process:
+# 1. Does a HTTP GET request to obtain a random post.
+# 2. Converts the returned value into a Dictionary.
+# 3. if the over_18 value is false or the link_flair_text value is Art and it isn't a reddit gallery link, then returns the post URL that is a picture.
 def get_random_art():
 
     # Here we use reddits random api call to get a random post then we do this untils it's an Art post.
@@ -30,9 +35,11 @@ def get_random_art():
         return url
 
 
+# Same procedure only the 3. step differs a bit,
+# "Art" isn't checked because NSFW content is usually Art in the current subreddit.
 def get_random_nsfw():
 
-    # Uses the same method but requests and nsfw post
+    # Uses the same method but requests an nsfw post.
     r = req.get(reddit_domain+sub_reddit+"random.json", headers=reddit_agent).json()
     post = r[0]["data"]["children"][0]["data"]
     nsfw = post["over_18"]
