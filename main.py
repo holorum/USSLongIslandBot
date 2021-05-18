@@ -53,7 +53,7 @@ def start(token):
             rec = steam_requests.recommend_game()
             await ctx.send(rec)
         
-        @bot.command(description="Random Art from steam")
+        @bot.command(description="Random Art from reddit")
         async def art(ctx):
             """Show me Ghostie!"""
             ghostie = reddit_requests.get_random_art()
