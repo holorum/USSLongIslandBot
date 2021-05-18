@@ -36,6 +36,13 @@ bot = commands.Bot(
     )
 
 opted = []
+
+o = open("opted")
+for line in o:
+    line = line.strip("\n")
+    if line != "":
+        opted.append(line)
+
 haunt_h = 1.0
 
 def start(token):
@@ -70,7 +77,9 @@ def start(token):
                 else:
                     h = False
             if not h:
-                opted.append(ctx.author)
+                opted.append(ctx.author.id)
+                o = open("opted", "a")
+                o.write(str(ctx.author.id))
                 await ctx.send("Haunt!")
             else:
                 await ctx.send("Already Haunting you!")
@@ -80,7 +89,15 @@ def start(token):
         async def dehaunt(self, ctx):
             """De Haunting you..."""
             try:
-                opted.remove(ctx.author)
+                opted.remove(ctx.author.id)
+                with open("opted", "r") as f:
+	                data = f.readlines()
+
+                with open("opted", "w") as f:
+                    for line in data :
+                        if line.strip("\n") != str(ctx.author.id) :
+                            f.write(line)
+
                 await ctx.send("...")
             except Exception:
                 await ctx.send("I'm not even haunting you!")
@@ -118,11 +135,16 @@ def start(token):
     @tasks.loop(hours=c_hours)
     async def crontask():
         os.system("cron.py")
-    @tasks.loop(hours=haunt_h)
+    @tasks.loop(seconds=5.0)
     async def surprise():
         try:
             ro = r(0, len(opted))
-            await opted[ro].dm_channel.send(reddit_requests.get_random_art())
+            all = bot.get_all_members()
+            for member in all:
+                if member.id == int(opted[ro]):
+                    ch = await member.create_dm()
+                    await ch.send(reddit_requests.get_random_art())
+                    break
         except Exception:
             pass
     
