@@ -46,7 +46,7 @@ see [Privileged Gateway Intents](https://discordpy.readthedocs.io/en/latest/inte
 `cron.py` is to be run every so often so it creates and updates `games.json` from which the bot recommends the games. You should make a cronjob out of it or just run it manually every once in a while.
 
 #### Ignorable files
-There are files that should be ignored namely `games.json`,and `opted`.
+There are files that should be ignored namely `games.json` ,and `opted`.
 `opted` is a file where the bot stores the Discord members user ID's who are 
 registered for some processes and modifying the file can broke the process and the 
 bot won't raise a warning or an error.
