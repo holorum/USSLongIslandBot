@@ -22,6 +22,19 @@ Install [discord.py](https://github.com/Rapptz/discord.py) using one of the foll
 
 For any additional information/documentation about this python discord wrapper, visit the [discord.py](https://github.com/Rapptz/discord.py) github page.
 
+### Installing requests
+
+<br>
+
+Install requests using the following commands:
+
+        python -m pip install requests
+
+Requests is used by the bot to make HTTP GET requests to get image URLs from reddit, 
+also to obtain various game data from steam. For more information about how to 
+actually use requests visit the [requests](https://github.com/psf/requests) github page.
+
+
 ### About Discord Tokens
 
 The discord token is a unique indentifier (something like a password) for a bot, and you can also use it to log into discord and control the bot as you would do with a normal discord account join voice channels, text channels etc.
