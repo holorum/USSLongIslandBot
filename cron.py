@@ -3,7 +3,7 @@
 import requests as req
 import json
 
-# Updates the json file/Rewrites it with newer content.
+# Updates the json file/rewrites it with newer content.
 # Actually this method is unnecessary, but it will remain here in because why not?
 def update_json():
     """Returns all games from steam to a file"""

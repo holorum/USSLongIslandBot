@@ -7,7 +7,7 @@ reddit_domain = "https://www.reddit.com"
 sub_reddit = "/r/USSLongIsland/"
 
 # A user agent is required to ensure that our bot doesn't get a 429 for requesting once or twice
-reddit_agent = {"User-Agent" : "USSLongIsland"}
+reddit_agent = {"User-Agent" : "USSLongIslandBot"}
 
 
 # These two modules use requests, process:

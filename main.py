@@ -47,12 +47,13 @@ for line in o:
 
 # "haunt_h" is an interval used in a internal loop that runs like a subprocess.
 # It defines how much time is needed before the bot will send a random art from reddit to an opted user.
-haunt_h = 1.0
+haunt_h = 2.0
 
 def start(token):
     # Define what should happen when the bot is all set up and ready.
     @bot.event
     async def on_ready():
+        # These prints are only here for debug purposes
         print('Logged in as')
         print(bot.user.name)
         print('------')
@@ -75,7 +76,7 @@ def start(token):
         # This command registers the messages author, for haunting.
         # Here adding another ID t the List is easy, and writing to the file is easy too,
         # but the ID needs to be converted to String, for the List it's not necessary.
-        @commands.command(description="opt in for haunt")
+        @commands.command(description="opt in for occasional haunt")
         async def haunt(self, ctx):
             """Haunting you!"""
             h = False
@@ -88,15 +89,15 @@ def start(token):
                 opted.append(ctx.author.id)
                 o = open("opted", "a")
                 o.write(str(ctx.author.id))
-                await ctx.send("Haunt!")
+                await ctx.send("Alright, I'm gonna scare you from time to time!")
             else:
-                await ctx.send("Already Haunting you!")
+                await ctx.send("I'm already trying to scare you... is it not enough?")
 
 
         # Removes the messages author from the haunting process.
         # For the List it's easy because we can just use the List's remove() method,
         # but for the file we need to... well rewrite the file.
-        @commands.command(description="opt out for haunt")
+        @commands.command(description="opt out of haunt")
         async def dehaunt(self, ctx):
             """De Haunting you..."""
             try:
@@ -109,18 +110,19 @@ def start(token):
                         if line.strip("\n") != str(ctx.author.id) :
                             f.write(line)
 
-                await ctx.send("...")
+                await ctx.send("Eh...? You think I was too scary? Okay, I'll stop.")
             except Exception:
-                await ctx.send("I'm not even haunting you!")
+                await ctx.send("I'm not even trying to scare you!")
 
         
         # Steam recommandation command.
         # It can be slow because of steam.
         # see "steam_requests.py" to understand how it works.
-        @commands.command(description="Recommends a game from steam")
+        @commands.command(description="Recommends a game from Steam")
         async def recgame(self, ctx):
             """Recommend me a game!"""
             rec = steam_requests.recommend_game()
+            await ctx.send("Hey Commander, have you tried this one?")
             await ctx.send(rec)
     
     # See "reddit_requests.py" to understand how it works.
@@ -132,14 +134,14 @@ def start(token):
         # Art command see reddit_requests
         @commands.command(description="Random Art from reddit")
         async def art(self, ctx):
-            """Show me Ghostie!"""
+            """Sends a selfie from Reddit"""
             ghostie = reddit_requests.get_random_art()
             await ctx.send(ghostie)
 
         # NSFW command see reddit_requests
         @commands.command(description="Random NSFW Art from reddit")
         async def nsfw(self, ctx):
-            """Show me Naughty Ghostie!"""
+            """Sends a naughty selfie from Reddit"""
             n_ghostie = reddit_requests.get_random_nsfw()
             await ctx.send(n_ghostie)
     
@@ -149,7 +151,7 @@ def start(token):
     async def crontask():
         os.system("cron.py")
 
-    # This task here is the haunting process, every hour it sends a random art from reddit to a random opted user, based on the users ID.
+    # This task here is the haunting process, it sends a random art from reddit to a random opted in user, based on the users ID.
     @tasks.loop(hours=haunt_h)
     async def surprise():
         try:
@@ -174,9 +176,9 @@ def start(token):
     bot.add_cog(Art(bot))
         
 
-    # Well looks like If the events on_message is overriden then the commands won't procees...,
+    # Well looks like if the events on_message is overridden then the commands won't procees...,
     # but if we use the listener then it's fine.
-    # (Figured that if the "on_message()" is overriden, then we need to call the "command_process()", or smthg like that but using a listener instead was faster.)
+    # (Figured that if the "on_message()" is overriden, then we need to call the "command_process()", or something like that but using a listener instead was faster.)
     # NOTE: when using vscode pylance says that it isn't accessed, bullshit. It Is AcCeSsEd. (Tested)
     @bot.listen()
     async def on_message(msg):
