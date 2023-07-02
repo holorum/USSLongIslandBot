@@ -152,6 +152,11 @@ def start(token):
         await bot.add_cog(Standard(bot))
         await bot.add_cog(Art(bot))
 
+        # Start the task if relevant.
+        if cron == False:
+            await crontask.start()
+        await surprise.start()
+
     # Initialize Tasks.
     # Tasks are internal loops that allows you to do something every given interval. (For more info see the discord.py docs)
     @tasks.loop(hours=c_hours)
@@ -171,10 +176,6 @@ def start(token):
                     break
         except Exception:
             pass
-
-    # Start the task if relevant.
-    if cron == False:
-        crontask.start()
 
     # Well looks like if the events on_message is overridden then the commands won't procees...,
     # but if we use the listener then it's fine.
