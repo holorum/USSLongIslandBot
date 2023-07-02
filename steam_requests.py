@@ -3,28 +3,41 @@ import requests as req
 import json
 import random
 
+steam_games = "https://api.steampowered.com/ISteamApps/GetAppList/v2/"
 steam = "http://api.steampowered.com"
 steam_store = "http://store.steampowered.com"
 gamesdict = {}
+
+# If the games.json is not present then make it. (Happens at every start)
+steam_all_games = "http://api.steampowered.com/ISteamApps/GetAppList/v2"
+r = req.get(steam_all_games).json()
+serialize = json.dumps(r, indent=4)
+with open("games.json", "w") as jcron:
+    jcron.write(serialize)
+
 
 # Updates the gamesdict
 def update_dict():
     jcron = open("games.json", "r")
     gamesdict = json.load(jcron)
     return gamesdict
+
+
 gamesdict = update_dict()
 
 # Creates a steam store url based on appid and name of the game
+
+
 def create_store_url(appid, name):
     """Creates a steam store url"""
-    newname = name.replace(" ","_")
+    newname = name.replace(" ", "_")
     return "{}/app/{}/{}".format(steam_store, appid, newname)
 
 
 # Some apps might be not games so it needs to be checked, also because the request returns a {'succes' : false} tuple
 def get_game(appid):
     """Returns the game with the given 'appid'"""
-    game = "{}/api/appdetails?appids={}".format(steam_store,appid)
+    game = "{}/api/appdetails?appids={}".format(steam_store, appid)
     r = req.get(game).json()
     fk = list(r.keys())[0]
     try:
@@ -36,7 +49,7 @@ def get_game(appid):
         return None
 
 
-# Returns a random game 
+# Returns a random game
 def get_random_game():
     """Return a random game"""
     r = gamesdict

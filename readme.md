@@ -51,7 +51,7 @@ To use your token simple create a "token" file in the folder where the main.py f
 
 ### About Discord Intents
 
-The server members Intent needs to be enabled on the bot to fully function.
+The server members Intent and the message intent needs to be enabled on the bot to fully function.
 see [Privileged Gateway Intents](https://discordpy.readthedocs.io/en/latest/intents.html)
 
 ### cron.py
